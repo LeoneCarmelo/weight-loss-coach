@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Measurement;
+use App\Models\Client;
 use App\Http\Requests\StoreMeasurementRequest;
 use App\Http\Requests\UpdateMeasurementRequest;
 
@@ -49,7 +50,7 @@ class MeasurementController extends Controller
      */
     public function edit(Measurement $measurement)
     {
-        //
+        return view('measurements.edit', compact('measurement'));
     }
 
     /**
@@ -57,7 +58,13 @@ class MeasurementController extends Controller
      */
     public function update(UpdateMeasurementRequest $request, Measurement $measurement)
     {
-        //
+        $val_data = $request->validated();
+        $clientId = $val_data["client_id"];
+        $client = Client::find($clientId); 
+        $measurement->update($val_data);
+        $measurements = Measurement::where('client_id', $clientId)->orderByDesc('id')->get();
+
+        return to_route('clients.show', compact('clientId', 'client', 'measurements'))->with('message', 'Measurement updated!');
     }
 
     /**
@@ -65,6 +72,12 @@ class MeasurementController extends Controller
      */
     public function destroy(Measurement $measurement)
     {
-        //
+        //dd($measurement);
+        $clientId = $measurement["client_id"];
+        $client = Client::find($clientId); 
+        $measurement->delete();
+        $measurements = Measurement::where('client_id', $clientId)->orderByDesc('id')->get();
+
+        return to_route('clients.show', compact('clientId', 'client', 'measurements'))->with('message', 'Measurement deleted!');
     }
 }

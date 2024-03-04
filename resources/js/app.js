@@ -6,6 +6,7 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
+//Message
 const closeMessage = document.querySelector('.close_message')
 const alertInfo = document.querySelector('.alert-info') 
 if(closeMessage != null) {

@@ -11,7 +11,7 @@ class Measurement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['weight_kg', 'client_id'];
+    protected $fillable = ['weight_kg', 'fat_percentage', 'blood_pressure', 'client_id'];
 
     public function client() : BelongsTo {
         return $this->belongsTo(Client::class);
