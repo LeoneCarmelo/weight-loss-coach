@@ -34,7 +34,12 @@
                             <input type="file" name="photo" id="photo" class="form-control @error('photo') is-invalid @enderror" aria-describedby="helpIdtitle">
                         </div>
                         <div class="image">
-                            <img src="{{old('photo', $client->photo)}}" alt="" width="100" class="">
+                            @if (Str::startsWith($client->photo, 'http'))
+                            <img src="{{ $client->photo }}" alt="Client Photo">
+                            @else
+                            <img src="{{ asset('storage/' . $client->photo) }}" alt="Client Photo">
+                            @endif
+                          <!--   <img src="{{old('photo', $client->photo)}}" alt="" width="100" class=""> -->
                         </div>
                     </div>
                 </div>

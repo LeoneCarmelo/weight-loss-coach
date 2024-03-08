@@ -7,6 +7,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Measurement;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -43,7 +44,11 @@ class ClientController extends Controller
     {
         //dd($request);
         $val_data = $request->validated();
-        //dd($val_data);
+        //Image control
+        if ($request->hasFile('photo')) {
+            $img_path = Storage::put('client_photo', $request->photo);
+            $val_data['photo'] = $img_path;
+        }
         $new_client = Client::create($val_data);
         return to_route('clients.index')->with('message', 'Client added.');
     }
@@ -71,7 +76,16 @@ class ClientController extends Controller
     public function update(UpdateClientRequest $request, Client $client)
     {
         $val_data = $request->validated();
-        //to do image control
+        //Image control
+        if ($request->hasFile('photo')) {
+            //Delete old photo
+            if ($client->photo) {
+                Storage::delete($client->photo);
+            }
+            // Save the new one and get its path
+            $img_path = Storage::put('client_photo', $request->photo);
+            $val_data['photo'] = $img_path;
+        }
         $client->update($val_data);
         return to_route('clients.index')->with('message', 'Client updated!');
     }
@@ -81,7 +95,10 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //to do image
+
+        if($client->photo){
+            Storage::delete($client->photo);
+        }
         $client->delete();
         return to_route('clients.index')->with('message', 'Client deleted!');
     }

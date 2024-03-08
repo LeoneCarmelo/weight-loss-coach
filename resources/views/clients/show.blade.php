@@ -2,7 +2,7 @@
 @section('content')
 <div class="container p-5">
     <div class="row p-3 row-cols-2">
-        @include('partials.session_message')
+
         <!-- Details -->
         <div class="col">
             <h3 class="text-center">Client Details</h3>
@@ -18,13 +18,52 @@
                     </ul>
                 </div>
                 <div class="card-img text-end mb-5 w-50">
-                    <img src="{{$client->photo}}" alt="Client Photo">
+                    @if (Str::startsWith($client->photo, 'http'))
+                    <img src="{{ $client->photo }}" alt="Client Photo">
+                    @else
+                    <img src="{{ asset('storage/' . $client->photo) }}" alt="Client Photo">
+                    @endif
                     <span>{{$client->photo ? '' : 'No photo added'}}</span>
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-start gap-3">
+                <a href="{{route('clients.edit', $client->id)}}" class="btn btn-warning">
+                    Edit Client
+                </a>
+                <a type="button" class=" btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalId-{{$client->id}}">
+                    Delete Client
+                </a>
+                <a href="{{route('clients.index')}}" class="btn btn-primary">
+                    Clients List
+                </a>
+
+                <!-- Modal -->
+                <div class="modal fade" id="modalId-{{$client->id}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                    <div class="modal-dialog" role="dialog">
+                        <div class="modal-content">
+                            <div class="modal-header justify-content-end">
+                                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-dark text-center py-3">
+                                Sei sicuro di eliminare {{$client->first_name . ' ' . $client->last_name}}?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Chiudi</button>
+                                <form action="{{route('clients.destroy', $client)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-outline-success" type="submit">Conferma</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- Measurements -->
         <div class="col flex-column align-items-center">
+            @include('partials.session_message')
             <h3 class="text-center">Clients Measurements</h3>
             <hr>
             @include('partials.validation_errors')
