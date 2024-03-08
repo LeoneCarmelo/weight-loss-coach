@@ -31,7 +31,6 @@
         <div class="col flex-column align-items-center">
             <h3 class="text-center">Clients Measurements</h3>
             <hr>
-            @include('partials.validation_errors')
             <div class="table-responsive pt-3 px-1">
                 <table class="table table-dark table-hover">
                     <thead>
@@ -170,6 +169,7 @@
                     <input type="submit" value="Add Measurement" class="btn btn-success">
                 </td>
             </form>
+            @include('partials.validation_errors')
         </div>
     </div>
     <!-- Form Add Measurements -->
