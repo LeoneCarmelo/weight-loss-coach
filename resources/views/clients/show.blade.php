@@ -1,84 +1,58 @@
 @extends('layouts.admin')
 @section('content')
 <div class="container p-5">
-    <div class="row p-3">
+    <div class="row p-3 row-cols-2">
         @include('partials.session_message')
+        <!-- Details -->
         <div class="col">
-            <div class="card p-3 border-0">
-                <h3>Client Details</h3>
-                <hr class="">
-                <ul class="list-unstyled">
-                    <li><strong>Name: </strong>{{$client->first_name}}</li>
-                    <li><strong>Last Name: </strong>{{$client->last_name}}</li>
-                    <li><strong>Date of birth: </strong>{{$client->date_of_birth}}</li>
-                    <li><strong>Email address: </strong>{{$client->email}}</li>
-                    <li><strong>Length in cm: </strong>{{$client->length_cm}}</li>
-                </ul>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card border-0">
-                <div class="card-img text-center">
-                    <img src="{{$client->photo}}" alt="">
+            <h3 class="text-center">Client Details</h3>
+            <hr class="">
+            <div class="card flex-row justify-content-around align-items-center pt-3 border-0">
+                <div class="details mb-5">
+                    <ul class="list-unstyled">
+                        <li><strong>Name: </strong>{{$client->first_name}}</li>
+                        <li><strong>Last Name: </strong>{{$client->last_name}}</li>
+                        <li><strong>Date of birth: </strong>{{$client->date_of_birth}}</li>
+                        <li><strong>Email address: </strong>{{$client->email}}</li>
+                        <li><strong>Length in cm: </strong>{{$client->length_cm}}</li>
+                    </ul>
+                </div>
+                <div class="card-img text-end mb-5 w-50">
+                    <img src="{{$client->photo}}" alt="Client Photo">
                     <span>{{$client->photo ? '' : 'No photo added'}}</span>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row flex-column align-items-center">
-        <h3 class="fw-bold text-center my-3">Clients Measurements</h3>
-        <form action="{{route('measurements.store')}}" method="post" class="d-flex bg-form gap-3 p-3 my-3 rounded-3 w-50">
-            @csrf
-            <td>
-                <div class="d-flex flex-column gap-2">
-                    <label for="weight_kg" class="text-light text-center">Weight Kg</label>
-                    <input type="number" name="weight_kg" class="form-control @error('date_of_birth') is-invalid @enderror">
-                </div>
-            </td>
-            <td>
-                <div class="d-flex flex-column gap-2">
-                    <label for="fat_percentage" class="text-light text-center">Fat Percentage</label>
-                    <input type="number" name="fat_percentage" class="form-control @error('date_of_birth') is-invalid @enderror">
-                </div>
-            </td>
-            <td>
-                <div class="d-flex flex-column gap-2">
-                    <label for="blood_pressure" class="text-light text-center">Blood Pressure</label>
-                    <input type="number" name="blood_pressure" class="form-control @error('date_of_birth') is-invalid @enderror">
-                </div>
-            </td>
-            <input type="hidden" name="client_id" value="{{$client->id}}">
-            <td>
-                <input type="submit" value="Add Measurement" class="btn btn-outline-success">
-            </td>
-        </form>
-
-
-        <div class="table-responsive w-75 mx-auto rounded-2">
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Weight KG</th>
-                        <th scope="col">Fat Percentage</th>
-                        <th scope="col">Blood Pressure</th>
-                        <th scope="col">Updated At</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($measurements as $measurement)
-                    <tr>
+        <!-- Measurements -->
+        <div class="col flex-column align-items-center">
+            <h3 class="text-center">Clients Measurements</h3>
+            <hr>
+            @include('partials.validation_errors')
+            <div class="table-responsive pt-3 px-1">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Weight KG</th>
+                            <th scope="col">Fat Percentage</th>
+                            <th scope="col">Blood Pressure</th>
+                            <th scope="col">Updated At</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($measurements as $measurement)
+                        <tr>
                             <td class="">
-                                <span>{{$measurement->weight_kg}}</span>
+                                <span>{{$measurement->weight_kg ? $measurement->weight_kg . ' Kg' : ''}}</span>
                             </td>
                             <td class="">
-                                <span>{{$measurement->fat_percentage}}</span>
+                                <span>{{$measurement->fat_percentage ? $measurement->fat_percentage . ' %' : ''}}</span>
                             </td>
                             <td class="">
-                                <span>{{$measurement->blood_pressure}}</span>
+                                <span>{{$measurement->blood_pressure ? $measurement->blood_pressure . ' mmHg' : ''}}</span>
                             </td>
                             <td>
-                                <span>{{$measurement->updated_at}}</span>
+                                <span>{{$measurement->updated_at->format('d-m-Y H:i:s')}}</span>
                             </td>
                             <td>
                                 <div class="d-flex align-items-center justify-content-between h-100">
@@ -114,21 +88,50 @@
                                     </div>
                                 </div>
                             </td>
-                        </form>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td>
-                            <span>No MEasurement</span>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                            </form>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td>
+                                <span>No MEasurement</span>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-
+    <!-- Form Add Measurements -->
+    <div class="row p-3">
+        <div class="col col-6 ms-auto">
+            <form action="{{route('measurements.store')}}" method="post" class="d-flex bg-form gap-3 p-3 my-3 rounded-3">
+                @csrf
+                <td>
+                    <div class="d-flex flex-column gap-2">
+                        <label for="weight_kg" class="text-light text-center">Weight Kg</label>
+                        <input type="text" name="weight_kg" class="form-control @error('date_of_birth') is-invalid @enderror">
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex flex-column gap-2">
+                        <label for="fat_percentage" class="text-light text-center">Fat Percentage</label>
+                        <input type="text" name="fat_percentage" class="form-control @error('date_of_birth') is-invalid @enderror">
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex flex-column gap-2">
+                        <label for="blood_pressure" class="text-light text-center">Blood Pressure</label>
+                        <input type="text" name="blood_pressure" class="form-control @error('date_of_birth') is-invalid @enderror">
+                    </div>
+                </td>
+                <input type="hidden" name="client_id" value="{{$client->id}}">
+                <td>
+                    <input type="submit" value="Add Measurement" class="btn btn-success">
+                </td>
+            </form>
+        </div>
+    </div>
 
 
 

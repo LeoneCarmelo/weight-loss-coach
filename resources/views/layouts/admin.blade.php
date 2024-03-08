@@ -68,7 +68,7 @@
         @endif
 
         <!-- Page Content -->
-        <main class="">
+        <main class="main-content">
             @yield('content')
         </main>
     </div>

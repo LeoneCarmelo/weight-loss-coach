@@ -64,7 +64,7 @@ class MeasurementController extends Controller
         $measurement->update($val_data);
         $measurements = Measurement::where('client_id', $clientId)->orderByDesc('id')->get();
 
-        return to_route('clients.show', compact('clientId', 'client', 'measurements'))->with('message', 'Measurement updated!');
+        return to_route('clients.show', compact('client', 'measurements'))->with('message', 'Measurement updated!');
     }
 
     /**
