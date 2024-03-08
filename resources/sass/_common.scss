@@ -11,3 +11,31 @@
 .bg-form {
     background-color: $form;;
 }
+
+.bg_primary {
+    background: $btn-primary !important;
+}
+
+.bg_warning {
+    background: $btn-warning !important;
+}
+
+.bg_danger {
+    background: $btn-danger !important;
+}
+
+.bg_first {
+    background: $first !important;
+}
+
+.bg_second {
+    background: $second !important;
+}
+
+.text_first {
+    color: $first !important;
+}
+
+.text_second {
+    color: $second !important;
+}

@@ -4,11 +4,11 @@
     <h1 class="text-center fw-bold  my-3">Clients list</h1>
     @include('partials.session_message')
     <a class="p-2 fs-1 fw-bold text-right text-decoration-none text-info" href="{{route('clients.create')}}" role="button">
-        <i class="fa-solid fa-plus" aria-hidden="true"></i>
-        <span>Add client</span>
+        <i class="fa-solid fa-plus text-success" aria-hidden="true"></i>
+        <span class="text-dark">Add client</span>
     </a>
     <div class="table-responsive my-4">
-        <table class="table table-striped table-dark table-hover">
+        <table class="table table-striped table-success table-hover">
             <thead>
                 <tr class="clients">
                     <th scope="col">Name</th>

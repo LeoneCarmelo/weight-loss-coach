@@ -15,10 +15,17 @@ body {
 }
 //navbar
 ul[id="navId"] {
-    height:45px;
+    height:$nav-height;
 }
  .main-content {
-    height: calc(100vh - 45px);
+    height: calc(100vh - #{$nav-height});
+    overflow-y: scroll;
+    background: linear-gradient(0deg, $first 0%, $second 100%);
+
+    .alert {
+        top:calc(1rem + #{$nav-height});
+        right:1rem;
+    }
  }
 
 //client index
