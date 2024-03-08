@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="container d-flex justify-content-center flex-column client-index">
-    <h1 class="text-center fw-bold  my-3">Clients list</h1>
+    <h1 class="text-center fw-bold  py-2">Clients list</h1>
     @include('partials.session_message')
     <a class="p-2 fs-1 fw-bold text-right text-decoration-none text-info" href="{{route('clients.create')}}" role="button">
         <i class="fa-solid fa-plus text-success" aria-hidden="true"></i>
@@ -14,7 +14,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Length cm</th>
+                    <th scope="col">Length</th>
                     <th scope="col">Date of birth</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -25,7 +25,7 @@
                     <td scope="row">{{$client->first_name}}</td>
                     <td scope="row">{{$client->last_name}}</td>
                     <td scope="row">{{$client->email}}</td>
-                    <td scope="row">{{$client->length_cm}}</td>
+                    <td scope="row">{{$client->length_cm}} cm</td>
                     <td scope="row">{{$client->date_of_birth}}</td>
                     <td>
                         <div class="d-flex align-items-center justify-content-between h-100">

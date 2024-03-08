@@ -2,7 +2,7 @@
 @section('content')
 <div class="container p-5">
   <div class="row">
-    <h2 class="text-center">Add client</h2>
+    <h2 class="text-center">Add Client</h2>
     <div class="d-flex justify-content-center">
       <form action="{{route('clients.store')}}" method="post" class="my-4 d-flex flex-column w-100" enctype="multipart/form-data">
         @csrf
