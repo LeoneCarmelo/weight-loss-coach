@@ -21,7 +21,7 @@ class ClientController extends Controller
     {
         if(Auth::id() === 1) {
             
-            $clients = Client::with('measurements')->orderByDesc('id')->get();
+            $clients = Client::with('measurements')->orderByDesc('id')->paginate(8);
             return view('clients.index', compact('clients'));
         } else {
             return abort('403');

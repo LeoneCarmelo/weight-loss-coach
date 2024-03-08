@@ -1,10 +1,11 @@
 @extends('layouts.admin')
 @section('content')
 <div class="container d-flex justify-content-center flex-column client-index">
-    <h1 class="text-center fw-bold  my-3">ALL YOUR CLIENTS</h1>
+    <h1 class="text-center fw-bold  my-3">Clients list</h1>
     @include('partials.session_message')
-    <a class="p-2 fs-1 fw-bold text-right" href="{{route('clients.create')}}" role="button">
-        +
+    <a class="p-2 fs-1 fw-bold text-right text-decoration-none text-info" href="{{route('clients.create')}}" role="button">
+        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+        <span>Add client</span>
     </a>
     <div class="table-responsive my-4">
         <table class="table table-striped table-dark table-hover">
@@ -15,7 +16,6 @@
                     <th scope="col">Email</th>
                     <th scope="col">Length cm</th>
                     <th scope="col">Date of birth</th>
-                    <th scope="col">Photo</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -27,9 +27,6 @@
                     <td scope="row">{{$client->email}}</td>
                     <td scope="row">{{$client->length_cm}}</td>
                     <td scope="row">{{$client->date_of_birth}}</td>
-                    <td scope="row">
-                        <img src="{{$client->photo}}" alt="">
-                    </td>
                     <td>
                         <div class="d-flex align-items-center justify-content-between h-100">
                             <a href="{{route('clients.show', $client->id)}}">
@@ -50,7 +47,7 @@
                                         <div class="modal-header justify-content-end">
                                             <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body text-dark">
+                                        <div class="modal-body text-dark text-center py-3">
                                             Sei sicuro di eliminare {{$client->first_name . ' ' . $client->last_name}}?
                                         </div>
                                         <div class="modal-footer">
@@ -76,5 +73,6 @@
             </tbody>
         </table>
     </div>
+    {{ $clients->links() }}
 </div>
 @endsection
